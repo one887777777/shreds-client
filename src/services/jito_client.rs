@@ -51,9 +51,6 @@ impl JitoClient {
                 // 打印结果
                 results.print();
                 
-                if cfg!(debug_assertions) {
-                    //println!("处理时间: {:?}", processing_time);
-                }
             }
             
             // 清空主缓冲区以便下次循环重用

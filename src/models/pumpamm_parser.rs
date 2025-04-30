@@ -39,7 +39,7 @@ pub struct PumpAmmInstruction {
 
 impl fmt::Display for PumpAmmInstruction {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        writeln!(f, "Instruction_Type: {:?}", self.instruction_type)?;
+
         
         // 获取账户标签
         let account_labels = get_pumpamm_account_labels();
