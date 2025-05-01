@@ -2,12 +2,12 @@
 
 ## 项目介绍
 
-Shreds Client是一个用Rust开发的Solana交易监控工具，专注于解析和监控PUMP、PUMP_AMM和POOB智能合约的交易。该工具连接到Jito网络的数据流，实时捕获交易并进行解析，提供交易的详细信息和统计数据。
+Shreds Client是一个用Rust开发的Solana交易监控工具，专注于解析和监控PUMP、PUMP_AMM和BOOP智能合约的交易。该工具连接到Jito网络的数据流，实时捕获交易并进行解析，提供交易的详细信息和统计数据。
 
 ## 主要功能
 
 - 实时监控Solana区块链上的交易
-- 解析PUMP、PUMP_AMM和POOB智能合约的交易指令
+- 解析PUMP、PUMP_AMM和BOOP智能合约的交易指令
 - 详细显示交易的参数和账户信息
 - 使用多线程并行处理以提高性能
 - 结构化的日志输出，便于数据分析和监控
@@ -39,7 +39,7 @@ Shreds Client是一个用Rust开发的Solana交易监控工具，专注于解析
 - **UpdateAdmin** - 更新管理员
 - **UpdateFeeConfig** - 更新费用配置
 
-### POOB交易指令类型
+### boop交易指令类型
 
 - **BuyToken** - 从绑定曲线购买代币
 - **SellToken** - 向绑定曲线卖出代币
@@ -152,11 +152,11 @@ Max Quote Amount In: 63871932
 --------------------------------------------------------
 ```
 
-### POOB交易示例
+### boop交易示例
 
 ```
 --------------------------------------------------------
-Parser:POOB
+Parser:BOOP
 Slot:337163297
 Signature:5gofiLUi6hHdLsivsDHaKCKWes71NZs8TPiqAECqdjMtG2UDa9E954tjqBvYuZkJctwfLhWMwAvvcUgeAmoBEa3G
 Instruction_Count: 3
@@ -220,7 +220,7 @@ Max_SOL_Cost: 54999999999664455
 // 定义要查找的程序ID (Base58格式)
 pub const PUMP_PROGRAM_ID: &str = "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P";
 pub const PUMPAMM_PROGRAM_ID: &str = "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA";
-pub const POOB_PROGRAM_ID: &str = "boop8hVGQGqehUK2iVEMEnMrL5RbjywRzHKBmBE7ry4";
+pub const BOOP_PROGRAM_ID: &str = "boop8hVGQGqehUK2iVEMEnMrL5RbjywRzHKBmBE7ry4";
 ```
 
 ## 许可证

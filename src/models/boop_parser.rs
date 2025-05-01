@@ -6,16 +6,16 @@ use solana_sdk::transaction::VersionedTransaction;
 use solana_sdk::message::legacy::Message as LegacyMessage;
 use solana_sdk::message::v0::Message as V0Message;
 use solana_sdk::message::VersionedMessage;
-use crate::utils::get_poob_account_labels_by_instruction;
+use crate::utils::get_boop_account_labels_by_instruction;
 
 // 添加allow注解来消除警告
 #[allow(dead_code)]
-pub const POOB_PROGRAM_ID: &str = "boop8hVGQGqehUK2iVEMEnMrL5RbjywRzHKBmBE7ry4";
+pub const BOOP_PROGRAM_ID: &str = "boop8hVGQGqehUK2iVEMEnMrL5RbjywRzHKBmBE7ry4";
 
-// POOB指令类型（根据IDL定义）
+// BOOP指令类型（根据IDL定义）
 #[derive(Debug, PartialEq, Clone)]
 #[allow(dead_code)]
-pub enum PoobInstructionType {
+pub enum BoopInstructionType {
     Unknown,
     // 新指令类型
     BuyToken,      // 购买代币
@@ -31,19 +31,19 @@ pub enum PoobInstructionType {
     UpdateAuthority, // 更新权限
 }
 
-// POOB指令的详细信息
+// BOOP指令的详细信息
 #[derive(Debug, Clone)]
-pub struct PoobInstruction {
-    pub instruction_type: PoobInstructionType,
+pub struct BoopInstruction {
+    pub instruction_type: BoopInstructionType,
     pub accounts: Vec<String>,
     pub data: Vec<u8>,
 }
 
-impl fmt::Display for PoobInstruction {
+impl fmt::Display for BoopInstruction {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         // 首先打印指令参数
         match &self.instruction_type {
-            PoobInstructionType::BuyToken => {
+            BoopInstructionType::BuyToken => {
                 if self.data.len() >= 16 {
                     // 解析amount参数（跳过前8字节的鉴别器）
                     let amount = u64::from_le_bytes([
@@ -64,7 +64,7 @@ impl fmt::Display for PoobInstruction {
                 }
                 
                 // 获取账户标签
-                let account_labels = get_poob_account_labels_by_instruction("BuyToken");
+                let account_labels = get_boop_account_labels_by_instruction("BuyToken");
                 
                 // 打印账户信息
                 for (i, account) in self.accounts.iter().enumerate() {
@@ -72,7 +72,7 @@ impl fmt::Display for PoobInstruction {
                     writeln!(f, "[{}]{}: {}", i, label, account)?;
                 }
             },
-            PoobInstructionType::SellToken => {
+            BoopInstructionType::SellToken => {
                 if self.data.len() >= 16 {
                     // 解析amount参数（跳过前8字节的鉴别器）
                     let amount = u64::from_le_bytes([
@@ -93,7 +93,7 @@ impl fmt::Display for PoobInstruction {
                 }
                 
                 // 获取账户标签
-                let account_labels = get_poob_account_labels_by_instruction("SellToken");
+                let account_labels = get_boop_account_labels_by_instruction("SellToken");
                 
                 // 打印账户信息
                 for (i, account) in self.accounts.iter().enumerate() {
@@ -101,7 +101,7 @@ impl fmt::Display for PoobInstruction {
                     writeln!(f, "[{}]{}: {}", i, label, account)?;
                 }
             },
-            PoobInstructionType::CreateToken => {
+            BoopInstructionType::CreateToken => {
                 // 解析CreateToken指令的参数数据
                 if self.data.len() >= 16 { // 至少包含鉴别器(8字节)和部分数据
                     // 跳过前8字节的鉴别器
@@ -166,7 +166,7 @@ impl fmt::Display for PoobInstruction {
                 }
                 
                 // 获取账户标签
-                let account_labels = get_poob_account_labels_by_instruction("CreateToken");
+                let account_labels = get_boop_account_labels_by_instruction("CreateToken");
                 
                 // 打印账户信息
                 for (i, account) in self.accounts.iter().enumerate() {
@@ -174,7 +174,7 @@ impl fmt::Display for PoobInstruction {
                     writeln!(f, "[{}]{}: {}", i, label, account)?;
                 }
             },
-            PoobInstructionType::DeployBondingCurve => {
+            BoopInstructionType::DeployBondingCurve => {
                 // 解析DeployBondingCurve指令的参数数据
                 if self.data.len() >= 16 { // 鉴别器(8字节) + 至少8字节数据
                     // 跳过前8字节的鉴别器
@@ -214,7 +214,7 @@ impl fmt::Display for PoobInstruction {
                 }
                 
                 // 获取账户标签
-                let account_labels = get_poob_account_labels_by_instruction("DeployBondingCurve");
+                let account_labels = get_boop_account_labels_by_instruction("DeployBondingCurve");
                 
                 // 打印账户信息
                 for (i, account) in self.accounts.iter().enumerate() {
@@ -222,7 +222,7 @@ impl fmt::Display for PoobInstruction {
                     writeln!(f, "[{}]{}: {}", i, label, account)?;
                 }
             },
-            PoobInstructionType::Create => {
+            BoopInstructionType::Create => {
                 // Create指令的字符串参数在data[8..]之后
                 if self.data.len() > 8 {
                     // 前8字节是discriminator，后面是参数数据
@@ -294,7 +294,7 @@ impl fmt::Display for PoobInstruction {
                 }
                 
                 // 获取账户标签
-                let account_labels = get_poob_account_labels_by_instruction("Create");
+                let account_labels = get_boop_account_labels_by_instruction("Create");
                 
                 // 打印账户信息
                 for (i, account) in self.accounts.iter().enumerate() {
@@ -302,7 +302,7 @@ impl fmt::Display for PoobInstruction {
                     writeln!(f, "[{}]{}: {}", i, label, account)?;
                 }
             },
-            PoobInstructionType::Sell => {
+            BoopInstructionType::Sell => {
                 if self.data.len() >= 16 {
                     // 解析amount参数（跳过前8字节的鉴别器）
                     let amount = u64::from_le_bytes([
@@ -323,7 +323,7 @@ impl fmt::Display for PoobInstruction {
                 }
                 
                 // 获取账户标签
-                let account_labels = get_poob_account_labels_by_instruction("Sell");
+                let account_labels = get_boop_account_labels_by_instruction("Sell");
                 
                 // 打印账户信息
                 for (i, account) in self.accounts.iter().enumerate() {
@@ -331,9 +331,9 @@ impl fmt::Display for PoobInstruction {
                     writeln!(f, "[{}]{}: {}", i, label, account)?;
                 }
             },
-            PoobInstructionType::Initialize => {
+            BoopInstructionType::Initialize => {
                 // 获取账户标签
-                let account_labels = get_poob_account_labels_by_instruction("Initialize");
+                let account_labels = get_boop_account_labels_by_instruction("Initialize");
                 
                 // 打印账户信息
                 for (i, account) in self.accounts.iter().enumerate() {
@@ -341,9 +341,9 @@ impl fmt::Display for PoobInstruction {
                     writeln!(f, "[{}]{}: {}", i, label, account)?;
                 }
             },
-            PoobInstructionType::SetParams => {
+            BoopInstructionType::SetParams => {
                 // 获取账户标签
-                let account_labels = get_poob_account_labels_by_instruction("SetParams");
+                let account_labels = get_boop_account_labels_by_instruction("SetParams");
                 
                 // 打印账户信息
                 for (i, account) in self.accounts.iter().enumerate() {
@@ -351,9 +351,9 @@ impl fmt::Display for PoobInstruction {
                     writeln!(f, "[{}]{}: {}", i, label, account)?;
                 }
             },
-            PoobInstructionType::UpdateAuthority => {
+            BoopInstructionType::UpdateAuthority => {
                 // 获取账户标签
-                let account_labels = get_poob_account_labels_by_instruction("UpdateAuthority");
+                let account_labels = get_boop_account_labels_by_instruction("UpdateAuthority");
                 
                 // 打印账户信息
                 for (i, account) in self.accounts.iter().enumerate() {
@@ -361,7 +361,7 @@ impl fmt::Display for PoobInstruction {
                     writeln!(f, "[{}]{}: {}", i, label, account)?;
                 }
             },
-            PoobInstructionType::Unknown => {
+            BoopInstructionType::Unknown => {
                 writeln!(f, "未知指令类型，数据长度: {}", self.data.len())?;
                 if !self.data.is_empty() {
                     writeln!(f, "前8字节: {:?}", &self.data[0..std::cmp::min(8, self.data.len())])?;
@@ -387,14 +387,14 @@ impl fmt::Display for PoobInstruction {
     }
 }
 
-// POOB交易定义
+// BOOP交易定义
 #[derive(Debug)]
-pub struct PoobTransaction {
+pub struct BoopTransaction {
     pub signature: String,
-    pub instructions: Vec<PoobInstruction>,
+    pub instructions: Vec<BoopInstruction>,
 }
 
-impl fmt::Display for PoobTransaction {
+impl fmt::Display for BoopTransaction {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         writeln!(f, "Instruction_Count: {}", self.instructions.len())?;
         
@@ -407,15 +407,15 @@ impl fmt::Display for PoobTransaction {
     }
 }
 
-pub struct PoobParser;
+pub struct BoopParser;
 
-impl PoobParser {
-    pub fn parse_transaction(transaction: &VersionedTransaction) -> Option<PoobTransaction> {
-        let poob_program_id = Pubkey::from_str(POOB_PROGRAM_ID).unwrap();
+impl BoopParser {
+    pub fn parse_transaction(transaction: &VersionedTransaction) -> Option<BoopTransaction> {
+        let boop_program_id = Pubkey::from_str(BOOP_PROGRAM_ID).unwrap();
         
         let (instructions, signature) = match &transaction.message {
             VersionedMessage::Legacy(message) => {
-                let instructions = Self::extract_poob_instructions_from_legacy(message, &poob_program_id);
+                let instructions = Self::extract_boop_instructions_from_legacy(message, &boop_program_id);
                 
                 if instructions.is_empty() {
                     return None;
@@ -425,7 +425,7 @@ impl PoobParser {
                 (instructions, signature)
             }
             VersionedMessage::V0(message) => {
-                let instructions = Self::extract_poob_instructions_from_v0(message, &poob_program_id);
+                let instructions = Self::extract_boop_instructions_from_v0(message, &boop_program_id);
                 
                 if instructions.is_empty() {
                     return None;
@@ -436,59 +436,59 @@ impl PoobParser {
             }
         };
         
-        Some(PoobTransaction {
+        Some(BoopTransaction {
             signature,
             instructions,
         })
     }
     
-    fn extract_poob_instructions_from_legacy(
+    fn extract_boop_instructions_from_legacy(
         message: &LegacyMessage,
-        poob_program_id: &Pubkey,
-    ) -> Vec<PoobInstruction> {
+        boop_program_id: &Pubkey,
+    ) -> Vec<BoopInstruction> {
         let account_keys = &message.account_keys;
-        let mut poob_instructions = Vec::new();
+        let mut boop_instructions = Vec::new();
         
         for ix in &message.instructions {
-            if account_keys.get(ix.program_id_index as usize) == Some(poob_program_id) {
-                let poob_instruction = Self::compile_instruction_to_poob_instruction(ix, account_keys);
-                poob_instructions.push(poob_instruction);
+            if account_keys.get(ix.program_id_index as usize) == Some(boop_program_id) {
+                let boop_instruction = Self::compile_instruction_to_boop_instruction(ix, account_keys);
+                boop_instructions.push(boop_instruction);
             }
         }
         
-        poob_instructions
+        boop_instructions
     }
     
-    fn extract_poob_instructions_from_v0(
+    fn extract_boop_instructions_from_v0(
         message: &V0Message,
-        poob_program_id: &Pubkey,
-    ) -> Vec<PoobInstruction> {
+        boop_program_id: &Pubkey,
+    ) -> Vec<BoopInstruction> {
         let account_keys: Vec<Pubkey> = message
             .account_keys
             .iter()
             .map(|key| key.clone())
             .collect();
             
-        let mut poob_instructions = Vec::new();
+        let mut boop_instructions = Vec::new();
         
         for ix in &message.instructions {
             if ix.program_id_index as usize >= account_keys.len() {
                 continue;
             }
             
-            if account_keys.get(ix.program_id_index as usize) == Some(poob_program_id) {
-                let poob_instruction = Self::compile_instruction_to_poob_instruction(ix, &account_keys);
-                poob_instructions.push(poob_instruction);
+            if account_keys.get(ix.program_id_index as usize) == Some(boop_program_id) {
+                let boop_instruction = Self::compile_instruction_to_boop_instruction(ix, &account_keys);
+                boop_instructions.push(boop_instruction);
             }
         }
         
-        poob_instructions
+        boop_instructions
     }
     
-    fn compile_instruction_to_poob_instruction(
+    fn compile_instruction_to_boop_instruction(
         ix: &CompiledInstruction,
         account_keys: &[Pubkey],
-    ) -> PoobInstruction {
+    ) -> BoopInstruction {
         // 转换账户索引到账户地址的字符串表示
         let accounts: Vec<String> = ix
             .accounts
@@ -503,30 +503,30 @@ impl PoobParser {
             // 检查指令数据的前8个字节来确定指令类型
             match &ix.data[0..8] {
                 // 根据IDL定义的指令鉴别器
-                [138, 127, 14, 91, 38, 87, 115, 105] => PoobInstructionType::BuyToken,  // buy_token指令
-                [109, 61, 40, 187, 230, 176, 135, 174] => PoobInstructionType::SellToken, // sell_token指令
-                [253, 184, 126, 199, 235, 232, 172, 162] => PoobInstructionType::CreateToken, // create_token指令
-                [53, 230, 172, 84, 77, 174, 22, 61] => PoobInstructionType::DeployBondingCurve, // deploy_bonding_curve指令
-                [84, 52, 204, 228, 24, 140, 234, 75] => PoobInstructionType::CreateToken, // 新发现的create_token指令鉴别器
-                [180, 89, 199, 76, 168, 236, 217, 138] => PoobInstructionType::DeployBondingCurve, // 新发现的deploy_bonding_curve指令鉴别器
+                [138, 127, 14, 91, 38, 87, 115, 105] => BoopInstructionType::BuyToken,  // buy_token指令
+                [109, 61, 40, 187, 230, 176, 135, 174] => BoopInstructionType::SellToken, // sell_token指令
+                [253, 184, 126, 199, 235, 232, 172, 162] => BoopInstructionType::CreateToken, // create_token指令
+                [53, 230, 172, 84, 77, 174, 22, 61] => BoopInstructionType::DeployBondingCurve, // deploy_bonding_curve指令
+                [84, 52, 204, 228, 24, 140, 234, 75] => BoopInstructionType::CreateToken, // 新发现的create_token指令鉴别器
+                [180, 89, 199, 76, 168, 236, 217, 138] => BoopInstructionType::DeployBondingCurve, // 新发现的deploy_bonding_curve指令鉴别器
                 
                 // 原始指令的鉴别器
-                [191, 19, 103, 26, 245, 85, 112, 105] => PoobInstructionType::Create, // create指令
-                [25, 169, 76, 76, 84, 153, 195, 216] => PoobInstructionType::Sell,    // sell指令
-                [175, 175, 109, 31, 13, 152, 155, 237] => PoobInstructionType::Initialize, // initialize指令
-                [235, 129, 153, 118, 219, 194, 131, 246] => PoobInstructionType::SetParams, // setParams指令
-                [167, 17, 172, 137, 241, 116, 201, 161] => PoobInstructionType::UpdateAuthority, // updateAuthority指令
+                [191, 19, 103, 26, 245, 85, 112, 105] => BoopInstructionType::Create, // create指令
+                [25, 169, 76, 76, 84, 153, 195, 216] => BoopInstructionType::Sell,    // sell指令
+                [175, 175, 109, 31, 13, 152, 155, 237] => BoopInstructionType::Initialize, // initialize指令
+                [235, 129, 153, 118, 219, 194, 131, 246] => BoopInstructionType::SetParams, // setParams指令
+                [167, 17, 172, 137, 241, 116, 201, 161] => BoopInstructionType::UpdateAuthority, // updateAuthority指令
                 
                 _ => {
                     println!("未知鉴别器: {:?}", &ix.data[0..8]);
-                    PoobInstructionType::Unknown
+                    BoopInstructionType::Unknown
                 },
             }
         } else {
-            PoobInstructionType::Unknown
+            BoopInstructionType::Unknown
         };
         
-        PoobInstruction {
+        BoopInstruction {
             instruction_type,
             accounts,
             data: ix.data.clone(),

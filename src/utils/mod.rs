@@ -278,9 +278,9 @@ pub fn get_pump_account_labels_by_instruction(instruction_type: &str) -> HashMap
     }
 }
 
-// POOB指令账户索引标签映射 - BuyToken指令
+// boop指令账户索引标签映射 - BuyToken指令
 #[allow(dead_code)]
-pub fn get_poob_buy_token_account_labels() -> HashMap<usize, &'static str> {
+pub fn get_boop_buy_token_account_labels() -> HashMap<usize, &'static str> {
     let mut labels = HashMap::new();
     
     labels.insert(0, "Mint");
@@ -300,9 +300,9 @@ pub fn get_poob_buy_token_account_labels() -> HashMap<usize, &'static str> {
     labels
 }
 
-// POOB指令账户索引标签映射 - SellToken指令
+// boop指令账户索引标签映射 - SellToken指令
 #[allow(dead_code)]
-pub fn get_poob_sell_token_account_labels() -> HashMap<usize, &'static str> {
+pub fn get_boop_sell_token_account_labels() -> HashMap<usize, &'static str> {
     let mut labels = HashMap::new();
     
     labels.insert(0, "Mint");
@@ -321,9 +321,9 @@ pub fn get_poob_sell_token_account_labels() -> HashMap<usize, &'static str> {
     labels
 }
 
-// POOB指令账户索引标签映射 - CreateToken指令
+// boop指令账户索引标签映射 - CreateToken指令
 #[allow(dead_code)]
-pub fn get_poob_create_token_account_labels() -> HashMap<usize, &'static str> {
+pub fn get_boop_create_token_account_labels() -> HashMap<usize, &'static str> {
     let mut labels = HashMap::new();
     
     // 使用与 Create 相同的账户标签
@@ -340,9 +340,9 @@ pub fn get_poob_create_token_account_labels() -> HashMap<usize, &'static str> {
     labels
 }
 
-// POOB指令账户索引标签映射 - DeployBondingCurve指令
+// boop指令账户索引标签映射 - DeployBondingCurve指令
 #[allow(dead_code)]
-pub fn get_poob_deploy_bonding_curve_account_labels() -> HashMap<usize, &'static str> {
+pub fn get_boop_deploy_bonding_curve_account_labels() -> HashMap<usize, &'static str> {
     let mut labels = HashMap::new();
     
     // 根据新提供的索引更新标签
@@ -360,26 +360,26 @@ pub fn get_poob_deploy_bonding_curve_account_labels() -> HashMap<usize, &'static
     labels
 }
 
-// 根据指令类型获取POOB账户标签映射
+// 根据指令类型获取boop账户标签映射
 #[allow(dead_code)]
-pub fn get_poob_account_labels_by_instruction(instruction_type: &str) -> HashMap<usize, &'static str> {
+pub fn get_boop_account_labels_by_instruction(instruction_type: &str) -> HashMap<usize, &'static str> {
     match instruction_type {
-        "BuyToken" => get_poob_buy_token_account_labels(),
-        "SellToken" => get_poob_sell_token_account_labels(),
-        "CreateToken" => get_poob_create_token_account_labels(),
-        "DeployBondingCurve" => get_poob_deploy_bonding_curve_account_labels(),
-        "Create" => get_poob_create_account_labels(),
-        "Sell" => get_poob_sell_account_labels(),
-        "Initialize" => get_poob_initialize_account_labels(),
-        "SetParams" => get_poob_setparams_account_labels(),
-        "UpdateAuthority" => get_poob_updateauthority_account_labels(),
+        "BuyToken" => get_boop_buy_token_account_labels(),
+        "SellToken" => get_boop_sell_token_account_labels(),
+        "CreateToken" => get_boop_create_token_account_labels(),
+        "DeployBondingCurve" => get_boop_deploy_bonding_curve_account_labels(),
+        "Create" => get_boop_create_account_labels(),
+        "Sell" => get_boop_sell_account_labels(),
+        "Initialize" => get_boop_initialize_account_labels(),
+        "SetParams" => get_boop_setparams_account_labels(),
+        "UpdateAuthority" => get_boop_updateauthority_account_labels(),
         _ => HashMap::new(), // 对于未知指令类型返回空映射
     }
 }
 
-// POOB指令账户索引标签映射 - Create指令（原始）
+// boop指令账户索引标签映射 - Create指令（原始）
 #[allow(dead_code)]
-pub fn get_poob_create_account_labels() -> HashMap<usize, &'static str> {
+pub fn get_boop_create_account_labels() -> HashMap<usize, &'static str> {
     let mut labels = HashMap::new();
     
     // 根据新提供的索引更新标签
@@ -395,9 +395,9 @@ pub fn get_poob_create_account_labels() -> HashMap<usize, &'static str> {
     labels
 }
 
-// POOB指令账户索引标签映射 - Sell指令（原始）
+// boop指令账户索引标签映射 - Sell指令（原始）
 #[allow(dead_code)]
-pub fn get_poob_sell_account_labels() -> HashMap<usize, &'static str> {
+pub fn get_boop_sell_account_labels() -> HashMap<usize, &'static str> {
     let mut labels = HashMap::new();
     
     // 根据已有的Sell指令输出添加适当的标签
@@ -414,9 +414,9 @@ pub fn get_poob_sell_account_labels() -> HashMap<usize, &'static str> {
     labels
 }
 
-// POOB指令账户索引标签映射 - Initialize指令
+// boop指令账户索引标签映射 - Initialize指令
 #[allow(dead_code)]
-pub fn get_poob_initialize_account_labels() -> HashMap<usize, &'static str> {
+pub fn get_boop_initialize_account_labels() -> HashMap<usize, &'static str> {
     let mut labels = HashMap::new();
     
     // 添加Initialize指令的账户标签
@@ -431,9 +431,9 @@ pub fn get_poob_initialize_account_labels() -> HashMap<usize, &'static str> {
     labels
 }
 
-// POOB指令账户索引标签映射 - SetParams指令
+// boop指令账户索引标签映射 - SetParams指令
 #[allow(dead_code)]
-pub fn get_poob_setparams_account_labels() -> HashMap<usize, &'static str> {
+pub fn get_boop_setparams_account_labels() -> HashMap<usize, &'static str> {
     let mut labels = HashMap::new();
     
     // 添加SetParams指令的账户标签
@@ -445,9 +445,9 @@ pub fn get_poob_setparams_account_labels() -> HashMap<usize, &'static str> {
     labels
 }
 
-// POOB指令账户索引标签映射 - UpdateAuthority指令
+// boop指令账户索引标签映射 - UpdateAuthority指令
 #[allow(dead_code)]
-pub fn get_poob_updateauthority_account_labels() -> HashMap<usize, &'static str> {
+pub fn get_boop_updateauthority_account_labels() -> HashMap<usize, &'static str> {
     let mut labels = HashMap::new();
     
     // 添加UpdateAuthority指令的账户标签

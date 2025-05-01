@@ -2,7 +2,7 @@ use std::sync::{Arc, Mutex};
 use rayon::prelude::*;
 use solana_entry::entry::Entry;
 
-use crate::models::{TransactionResults, PumpParser, PumpAmmParser, PoobParser};
+use crate::models::{TransactionResults, PumpParser, PumpAmmParser, BoopParser};
 
 // 批处理大小 - 可以根据系统性能调整
 #[allow(dead_code)]
@@ -51,7 +51,7 @@ impl TransactionProcessor {
             // 本地收集结果，减少锁争用
             let mut local_pump_results = Vec::new();
             let mut local_pumpamm_results = Vec::new();
-            let mut local_poob_results = Vec::new();
+            let mut local_boop_results = Vec::new();
             
             // 并行处理每个交易
             let pump_results: Vec<_> = batch
@@ -68,20 +68,20 @@ impl TransactionProcessor {
                 })
                 .collect();
             
-            let poob_results: Vec<_> = batch
+            let boop_results: Vec<_> = batch
                 .par_iter()
                 .filter_map(|tx| {
-                    PoobParser::parse_transaction(tx)
+                    BoopParser::parse_transaction(tx)
                 })
                 .collect();
             
             // 收集本地结果
             local_pump_results.extend(pump_results);
             local_pumpamm_results.extend(pumpamm_results);
-            local_poob_results.extend(poob_results);
+            local_boop_results.extend(boop_results);
             
             // 一次性获取锁并添加所有结果，减少锁争用
-            if !local_pump_results.is_empty() || !local_pumpamm_results.is_empty() || !local_poob_results.is_empty() {
+            if !local_pump_results.is_empty() || !local_pumpamm_results.is_empty() || !local_boop_results.is_empty() {
                 let mut tx_results = results.lock().unwrap();
                 
                 // 使用批量添加方法
@@ -93,8 +93,8 @@ impl TransactionProcessor {
                     tx_results.add_pumpamm_transactions(local_pumpamm_results);
                 }
                 
-                if !local_poob_results.is_empty() {
-                    tx_results.add_poob_transactions(local_poob_results);
+                if !local_boop_results.is_empty() {
+                    tx_results.add_boop_transactions(local_boop_results);
                 }
             }
         });
