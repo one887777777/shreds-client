@@ -59,6 +59,63 @@ Shreds Client是一个用Rust开发的Solana交易监控工具，专注于解析
 - Jito Shredstream API
 - Rayon并行计算库
 
+## 项目结构
+
+项目按照功能模块化组织，目录结构如下：
+
+```
+src/
+├── config/              # 配置相关代码
+│   └── mod.rs           # 定义常量和配置读取功能
+├── jito_protos/         # Jito网络协议定义
+│   ├── build.rs         # 构建脚本，用于编译protobuf文件
+│   ├── Cargo.toml       # 子项目依赖配置
+│   ├── protos/          # protobuf定义文件
+│   └── src/             # 生成的Rust代码
+├── models/              # 数据模型和解析器
+│   ├── boop_parser.rs   # BOOP交易解析器
+│   ├── mod.rs           # 模块导出
+│   ├── pump_parser.rs   # PUMP交易解析器
+│   ├── pumpamm_parser.rs# PUMP_AMM交易解析器
+│   └── transaction.rs   # 交易结果数据结构
+├── services/            # 服务层
+│   ├── jito_client.rs   # Jito网络客户端
+│   ├── mod.rs           # 模块导出
+│   └── transaction_processor.rs # 交易处理逻辑
+├── utils/               # 工具函数
+│   └── mod.rs           # 通用工具和辅助函数
+├── lib.rs               # 库入口点，导出公共API
+└── main.rs              # 程序入口点
+
+```
+
+### 主要组件说明
+
+1. **解析器 (Parsers)**
+   - `pump_parser.rs`: 专门解析PUMP协议交易，支持Buy、Sell、Create等指令类型
+   - `pumpamm_parser.rs`: 解析PUMP_AMM协议交易，包括流动性池交易指令
+   - `boop_parser.rs`: 解析BOOP协议交易，支持绑定曲线和代币创建指令
+
+2. **数据模型 (Models)**
+   - `transaction.rs`: 定义`TransactionResults`结构，用于存储和管理解析后的交易信息
+   - 各类交易结构体: 每个解析器中定义了对应的交易和指令结构体
+
+3. **服务 (Services)**
+   - `jito_client.rs`: 负责与Jito Shredstream API通信，接收交易数据
+   - `transaction_processor.rs`: 处理接收到的交易，协调解析和结果管理
+
+4. **配置和工具 (Config & Utils)**
+   - `config/mod.rs`: 程序配置，包括程序ID和批处理大小
+   - `utils/mod.rs`: 提供辅助功能，如账户标签映射和其他工具函数
+
+### 数据流
+
+1. 主程序通过`jito_client`连接到Jito Shredstream API
+2. 接收到交易数据后，传递给`transaction_processor`
+3. `transaction_processor`使用并行处理将交易分配给对应的解析器
+4. 各解析器识别和解析交易指令，生成结构化的交易信息
+5. 解析结果收集到`TransactionResults`中并输出 
+
 ## 安装与使用
 
 ### 前置条件
@@ -226,3 +283,4 @@ pub const BOOP_PROGRAM_ID: &str = "boop8hVGQGqehUK2iVEMEnMrL5RbjywRzHKBmBE7ry4";
 ## 许可证
 
 [MIT License](LICENSE) 
+
