@@ -45,22 +45,22 @@ impl fmt::Display for BoopInstruction {
         match &self.instruction_type {
             BoopInstructionType::BuyToken => {
                 if self.data.len() >= 16 {
-                    // 解析amount参数（跳过前8字节的鉴别器）
-                    let amount = u64::from_le_bytes([
-                        self.data[8], self.data[9], self.data[10], self.data[11],
-                        self.data[12], self.data[13], self.data[14], self.data[15]
-                    ]);
-                    
-                    writeln!(f, "Token_Amount: {}", amount)?;
-                    
                     // 解析max_sol_cost参数（如果存在）
                     if self.data.len() >= 24 {
-                        let max_sol_cost = u64::from_le_bytes([
-                            self.data[16], self.data[17], self.data[18], self.data[19],
-                            self.data[20], self.data[21], self.data[22], self.data[23]
+                        let amount_in_max = u64::from_le_bytes([
+                            self.data[8], self.data[9], self.data[10], self.data[11],
+                            self.data[12], self.data[13], self.data[14], self.data[15]
                         ]);
-                        writeln!(f, "Max_SOL_Cost: {} ", max_sol_cost)?;
+                        writeln!(f, "Max_SOL_Cost: {} ", amount_in_max)?;
                     }
+                    
+                    // 解析amount参数
+                    let buy_amount = u64::from_le_bytes([
+                        self.data[16], self.data[17], self.data[18], self.data[19],
+                        self.data[20], self.data[21], self.data[22], self.data[23]
+                    ]);
+                    
+                    writeln!(f, "Token_Amount: {}", buy_amount)?;
                 }
                 
                 // 获取账户标签
@@ -74,13 +74,13 @@ impl fmt::Display for BoopInstruction {
             },
             BoopInstructionType::SellToken => {
                 if self.data.len() >= 16 {
-                    // 解析amount参数（跳过前8字节的鉴别器）
-                    let amount = u64::from_le_bytes([
+                    // 解析sell_amount参数
+                    let sell_amount = u64::from_le_bytes([
                         self.data[8], self.data[9], self.data[10], self.data[11],
                         self.data[12], self.data[13], self.data[14], self.data[15]
                     ]);
                     
-                    writeln!(f, "Token_Amount: {}", amount)?;
+                    writeln!(f, "Token_Amount: {}", sell_amount)?;
                     
                     // 解析min_sol_out参数（如果存在）
                     if self.data.len() >= 24 {
@@ -304,13 +304,13 @@ impl fmt::Display for BoopInstruction {
             },
             BoopInstructionType::Sell => {
                 if self.data.len() >= 16 {
-                    // 解析amount参数（跳过前8字节的鉴别器）
-                    let amount = u64::from_le_bytes([
+                    // 解析sell_amount参数
+                    let sell_amount = u64::from_le_bytes([
                         self.data[8], self.data[9], self.data[10], self.data[11],
                         self.data[12], self.data[13], self.data[14], self.data[15]
                     ]);
                     
-                    writeln!(f, "Token_Amount: {}", amount)?;
+                    writeln!(f, "Token_Amount: {}", sell_amount)?;
                     
                     // 解析min_sol_out参数（如果存在）
                     if self.data.len() >= 24 {
@@ -362,24 +362,8 @@ impl fmt::Display for BoopInstruction {
                 }
             },
             BoopInstructionType::Unknown => {
-                writeln!(f, "未知指令类型，数据长度: {}", self.data.len())?;
-                if !self.data.is_empty() {
-                    writeln!(f, "前8字节: {:?}", &self.data[0..std::cmp::min(8, self.data.len())])?;
-                }
-                
-                // 尝试解析一些常见的参数格式
-                if self.data.len() >= 8 + 8 { // 鉴别器 + u64参数
-                    let value = u64::from_le_bytes([
-                        self.data[8], self.data[9], self.data[10], self.data[11],
-                        self.data[12], self.data[13], self.data[14], self.data[15]
-                    ]);
-                    writeln!(f, "可能的u64参数: {}", value)?;
-                }
-
-                // 打印所有账户
-                for (i, account) in self.accounts.iter().enumerate() {
-                    writeln!(f, "[{}]账户: {}", i, account)?;
-                }
+                // 对于未知指令，不打印任何信息
+                return Ok(());
             }
         }
         
