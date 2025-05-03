@@ -118,6 +118,19 @@ src/
 
 ## 安装与使用
 
+## 服务端安装教程
+```bash
+git clone https://github.com/jito-labs/shredstream-proxy.git
+cd shredstream-proxy
+#启动
+RUST_LOG=info cargo run --release --bin jito-shredstream-proxy -- shredstream \
+    --block-engine-url https://mainnet.block-engine.jito.wtf \ //
+    --auth-keypair keypair.json \  //jito_shred 私钥
+    --desired-regions amsterdam,ny \  //要接受的区域
+    --dest-ip-ports 127.0.0.1:8001,10.0.0.1:8001
+    --grpc-service-port 9999
+```
+
 ### 前置条件
 
 - 安装Rust和Cargo（1.85+版本）
