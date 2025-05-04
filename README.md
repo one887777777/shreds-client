@@ -4,6 +4,9 @@
 
 Shreds Client是一个用Rust开发的Solana交易监控工具，专注于解析和监控PUMP、PUMP_AMM和BOOP智能合约的交易。该工具连接到Jito网络的数据流，实时捕获交易并进行解析，提供交易的详细信息和统计数据。
 
+## 打赏作者
+ 感谢您的打赏,让开源更和谐.
+ Solana:BwPzuiSNf6bDDYuosUfCFVJUn4J3g2nMZGvBxwy42mcZ
 ## 主要功能
 
 - 实时监控Solana区块链上的交易
