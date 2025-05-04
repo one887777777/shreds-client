@@ -6,7 +6,7 @@ Shreds Client是一个用Rust开发的Solana交易监控工具，专注于解析
 
 ## 打赏作者
  感谢您的打赏,让开源更和谐.
- Solana:BwPzuiSNf6bDDYuosUfCFVJUn4J3g2nMZGvBxwy42mcZ
+ Solana打赏地址:BwPzuiSNf6bDDYuosUfCFVJUn4J3g2nMZGvBxwy42mcZ
 ## 主要功能
 
 - 实时监控Solana区块链上的交易
