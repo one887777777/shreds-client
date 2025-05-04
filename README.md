@@ -86,7 +86,7 @@ src/
 │   └── mod.rs           # 通用工具和辅助函数
 ├── lib.rs               # 库入口点，导出公共API
 └── main.rs              # 程序入口点
-
+└── keypair.json         # JitoShreds私钥
 ```
 
 ### 主要组件说明
